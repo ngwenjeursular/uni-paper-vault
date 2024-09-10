@@ -1,0 +1,39 @@
+<!-- app/templates/base.html -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>UniPaperVault</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+   
+    <nav class="navbar">
+        <ul class="navbar-links">
+            <!--<li><a href="{{ url_for('home.index') }}">Home</a></li>-->
+            {% if not current_user.is_authenticated %}
+            <li><a href="{{ url_for('user.register') }}">Register</a></li>
+            <li><a href="{{ url_for('user.login') }}">Login</a></li>
+            {% endif %}
+
+            {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('user.logout') }}">Logout</a></li>
+            {% endif %}
+
+            <li><a href="{{ url_for('question.post_question') }}">Post Question</a></li>
+
+            <li><a href="{{ url_for('user.profile') }}">My Profile</a></li>
+            
+            <!--need it incase user doesn't want to log in-->
+            {% if not request.endpoint == 'home' %}
+			<li><a href="{{ url_for('home.index') }}">Home</a></li>
+		    {% endif %}
+        </ul>
+    </nav>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!-- app/templates/post_question.html -->
+{% extends "base.html" %}
+{% block content %}
+	<div class="content-section">
+		<form method="POST" action="">
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Post a Question</legend>
+				<div class="form-group">
+					<label for="question">Question</label>
+					<textarea id="question" name="question" class="form-control" rows="5"></textarea>
+				</div>
+			</fieldset>
+			<div class="form-group">
+				<button type="submit" class="btn btn-outline-info">Post Question</button>
+			</div>
+		</form>
+	</div>
+{% endblock %}
