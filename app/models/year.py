@@ -1,7 +1,8 @@
 from sqlalchemy import Column, ForeignKey, String, Integer, Text
 from app.models.base import BaseModel
-from app import db
 from sqlalchemy.orm import relationship
+from app import db
+
 
 class Year(BaseModel, db.Model):
     """

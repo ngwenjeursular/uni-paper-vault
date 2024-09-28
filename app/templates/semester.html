@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Year {{ year_id }} - Semester {{ sem_id }}</h2>
+<p>Select Unit</p>
+
+<ul>
+    {% if units %}
+        {% for unit in units %}
+            <li>
+                {% if unit.unit_name and unit.id %}
+                    <!-- Link to the unit page -->
+                    <a href="{{ url_for('home.unit_page', year_id=year_id, sem_id=sem_id, unit_id=unit.id, unit_name=unit.unit_name) }}">
+                        {{ unit.unit_name }}
+                    </a>
+                    <!-- Link to post a question for the unit -->
+                    <a href="{{ url_for('question.post_question', unit_id=unit.id) }}">
+                        Post Question for {{ unit.unit_name }}
+                    </a>
+                {% else %}
+                    <p>Missing unit data</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    {% else %}
+        <p>No units available for this semester.</p>
+    {% endif %}
+</ul>
+
+{% endblock %}

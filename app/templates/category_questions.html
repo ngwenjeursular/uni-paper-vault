@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ unit.name }} - {{ category }}</h1>
+
+{% for question in questions.items %}
+	<a href="{{ url_for('question_bp.view_question', question_id=question.id) }}">{{ question.title }}</a><br>
+{% endfor %}
+
+<!-- Pagination -->
+{% if questions.has_prev %}
+	<a href="{{ url_for('question_bp.unit_category', unit_id=unit.id, category=category, page=questions.prev_num) }}">Previous</a>
+{% endif %}
+{% if questions.has_next %}
+	<a href="{{ url_for('question_bp.unit_category', unit_id=unit.id, category=category, page=questions.next_num) }}">Next</a>
+{% endif %}
+
+{% endblock %}

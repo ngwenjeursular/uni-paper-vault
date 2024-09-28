@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ question.title }}</h1>
+<p>{{ question.content }}</p>
+
+<!-- Form for submitting answers -->
+<form method="POST">
+    <label for="answer">Your Answer:</label>
+    <textarea name="answer" id="answer"></textarea>
+    <button type="submit">Submit Answer</button>
+</form>
+
+<!-- Display answers -->
+<h2>Answers:</h2>
+<ul>
+    {% for answer in answers %}
+    <li>
+        <p>{{ answer.content }}</p>
+        <p><small>Posted by user {{ answer.user_id }} at {{ answer.posted_at }}</small></p>
+        <!-- Display comments for the answer -->
+        <h3>Comments:</h3>
+        <ul>
+            {% for comment in answer.comments %}
+            <li>
+                <p>{{ comment.content }}</p>
+                <p><small>Commented by user {{ comment.user_id }} at {{ comment.posted_at }}</small></p>
+            </li>
+            {% endfor %}
+        </ul>
+        <!-- Form for submitting comments -->
+        <form method="POST" action="{{ url_for('home.add_comment', answer_id=answer.id) }}">
+            <label for="comment">Add a Comment:</label>
+            <textarea name="comment" id="comment" placeholder="Write your comment..."></textarea>
+            <button type="submit">Submit Comment</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

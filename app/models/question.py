@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app import db
 
+
 class Question(BaseModel, db.Model):
 	"""
 	Question model
@@ -11,16 +12,19 @@ class Question(BaseModel, db.Model):
 
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	content = Column(String, nullable=False)
-	paper_id = Column(Integer, ForeignKey('papers.id'), nullable=False)
+	unit_id = Column(Integer, ForeignKey('units.id'), nullable=False)
 
 	answers = relationship('Answer', backref='question', lazy=True)
 
-	def __init__(self, content, paper_id):
+	def __init__(self, content, unit_id):
 		"""
 		Constructor class
 		"""
+		print("question model loaded 4")
+
 		self.content = content
-		self.paper_id = paper_id
+		#self.paper_id = paper_id
+		self.unit_id = unit_id
 
 	def __repr__(self):
 		"""
@@ -41,5 +45,5 @@ class Question(BaseModel, db.Model):
 		return {
 			'id': self.id,
 			'content': self.content,
-			'paper_id': self.paper_id
+			'unit_id': self.unit_id
 		}

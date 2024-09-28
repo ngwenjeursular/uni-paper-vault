@@ -4,4 +4,18 @@
 {% block content %}
 <h1>Welcome to  UniPaperVault</h1>
 <p>Find and share past exam papers.</p>
+
+<h2>Select Year</h2>
+<ul>
+	{% for year in years %}
+		<li><a href="{{ url_for('home.select_year', year_id=year) }}">Year {{ year }}</a></li>
+	{% endfor %}
+</ul>
+<ul>
+    {% for unit in units %}
+        <li><a href="{{ url_for('question.post_question', unit_id=unit.id) }}">Post Question for {{ unit.name }}</a></li>
+    {% endfor %}
+</ul>
+
+
 {% endblock %}

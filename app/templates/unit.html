@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ unit.name }}</h1>
+<p>{{ unit.description }}</p>
+
+<!-- Links to categories: CATS and Exams -->
+<a href="{{ url_for('question_bp.unit_category', unit_id=unit.id, category='CATS') }}">CATS</a>
+<a href="{{ url_for('question_bp.unit_category', unit_id=unit.id, category='Exams') }}">Exams</a>
+
+
+{% endblock %}

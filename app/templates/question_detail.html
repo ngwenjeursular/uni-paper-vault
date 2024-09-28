@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ question.title }}</h1>
+<p>{{ question.content }}</p>
+
+<!-- Answer section -->
+{% for answer in answers %}
+	<div>
+		<p>{{ answer.content }}</p>
+		<p>Upvotes: {{ answer.upvotes }} | Downvotes: {{ answer.downvotes }}</p>
+	</div>
+	{% if current_user.is_authenticated %}
+		<a href="{{ url_for('answer_bp.upvote', answer_id=answer.id) }}">Upvote</a>
+		<a href="{{ url_for('answer_bp.downvote', answer_id=answer.id) }}">Downvote</a>
+		<a href="{{ url_for('answer_bp.comment', answer_id=answer.id) }}">Comment</a>
+	{% endif %}
+{% endfor %}
+
+<!-- Answer form -->
+{% if current_user.is_authenticated %}
+	<form method="POST" action="{{ url_for('answer_bp.post_answer', question_id=question.id) }}">
+		<textarea name="content" rows="5"></textarea>
+		<button type="submit">Post Answer</button>
+	</form>
+{% endif %}
+
+{% endblock %}

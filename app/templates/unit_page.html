@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ unit_name }}</h1>
+
+<!-- Form for uploading files or posting questions -->
+<form method="POST" enctype="multipart/form-data">
+    <label for="question">Post a Question:</label>
+    <textarea name="question" id="question"></textarea>
+
+    <label for="file">Upload a File:</label>
+    <input type="file" name="file" id="file">
+
+
+    <button type="submit">Submit</button>
+</form>
+
+<!-- Display questions as links -->
+<h2>Questions:</h2>
+<ul>
+    {% for question in questions %}
+    <li><a href="{{ url_for('home.question_page', question_id=question.id) }}">{{ question.content }}</a></li>
+    {% else %}
+    <li>No questions available.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Year {{ year_id }}</h2>
+<p>Select Semester</p>
+<ul>
+	<li><a href="{{ url_for('home.select_semester', year_id=year_id, sem_id=1) }}">Semester 1</a></li>
+	<li><a href="{{ url_for('home.select_semester', year_id=year_id, sem_id=2) }}">Semester 2</a></li>
+</ul>
+{% endblock %}
