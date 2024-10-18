@@ -42,3 +42,487 @@ h1 {
 	background-color: #0056b3;
 	color: #fff;
 }
+
+
+ul, li {
+	list-style-type: none;
+}
+
+.answer-container, .comment-container {
+	position: relative;
+	padding-right: 40px; /* Ensure space for the dots */
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.menu-dots {
+	cursor: pointer;
+	font-size: 18px;
+	position: absolute;
+	right: 10px; /* Position the dots on the right */
+	top: 10px;
+}
+
+.menu-options {
+	display: none; /* Hidden by default */
+	position: absolute;
+	right: 10px; /* Align with the dots */
+	top: 30px; /* Slightly below the dots */
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 5px;
+	z-index: 100;
+}
+
+.delete-btn {
+	background-color: red;
+	color: white;
+	padding: 5px 10px;
+	border: none;
+	cursor: pointer;
+}
+
+.delete-btn:hover {
+	background-color: darkred;
+}
+
+
+
+.menu-options button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.menu-options button:hover {
+    background-color: darkred;
+}
+
+/*.three-dots {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content .btn {
+    display: block;
+    width: 100%;
+}
+
+.show {
+    display: block;
+}
+*/
+
+/* unit page*/
+.unit-question-list {
+    margin-top: 20px;
+}
+
+.question-item {
+    background-color: #f8f9fa;  /* Light background color */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);  /* Light shadow */
+    transition: background-color 0.3s ease;
+}
+
+.question-item:hover {
+    background-color: #e9ecef;  /* Slightly darker on hover */
+}
+
+.question-title {
+    font-size: 20px;
+    color: #007bff;  /* Bootstrap-like blue for links */
+    text-decoration: none;
+}
+
+.question-title:hover {
+    text-decoration: underline;
+}
+
+.question-meta {
+    font-size: 14px;
+    color: #6c757d;  /* Muted text color */
+    margin-top: 5px;
+}
+
+/*3 dots*/
+/* Hover container for question */
+.question-item {
+    border: 1px solid gray;
+    padding: 10px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+/* Three dots */
+.three-dots {
+    cursor: pointer;
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+}
+
+/* Dropdown menu hidden by default */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;
+    z-index: 1;
+}
+
+/* Show dropdown on hover */
+.question-item:hover .dropdown {
+    display: block;
+}
+
+.question-item:hover .dropdown-content {
+    display: none;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.dropdown-content button:hover {
+    background-color: darkred;
+}
+
+/*question page*/
+/* Container for the question */
+.question-container {
+    background-color: white;
+    border: 1px solid gray;
+    margin-top: 60px; /* Adds space between the navbar and the question container */
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for better visibility */
+}
+
+
+/* Hover effect to change background color */
+.question-container:hover {
+    background-color: #e0e0e0; /* Light grey when hovered */
+}
+
+/* Three dots styling */
+.three-dots {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Dropdown styling */
+.dropdown {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    margin-bottom: 20px;
+    display: none; 
+}
+
+.question-container:hover .dropdown {
+    display: block; /* Show when hovering over the question container */
+}
+/* Hide dropdown by default */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;
+    z-index: 1;
+}
+
+/* Show dropdown when the 3 dots are clicked */
+.dropdown.show .dropdown-content {
+    display: block;
+}
+
+/* Show the dropdown on hover */
+.question-container:hover .dropdown {
+    display: block;
+}
+
+/* Dropdown content only visible when the three dots are clicked */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Delete button styling inside dropdown */
+.dropdown-content button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.dropdown-content button:hover {
+    background-color: darkred;
+}
+
+
+
+/* Ensure the textarea form doesn’t overlap the question container */
+textarea {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    font-size: 16px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/*Answer-Form*/
+/* Styling the answer form container */
+.answer-form {
+    margin-top: 20px; /* Add space between form and above elements */
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    z-index: 1; /* Ensure the form is above other containers if needed */
+    position: relative;
+}
+
+/* Label styling */
+.answer-form label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Textarea styling */
+.answer-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Button styling */
+.answer-form button {
+    background-color: #007bff; /* Bootstrap primary button color */
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.answer-form button:hover {
+    background-color: #0056b3;
+}
+
+/*add comment area*/
+.add-comment-container {
+	position: relative;
+	margin-top: 10px;
+}
+
+.add-comment-container textarea {
+	width: 100%; /* Small width initially */
+	height: 40px; /* Small height initially */
+	padding: 5px;
+	border: 0px solid #ccc;
+	border-radius: 0px;
+	resize: none; /* Prevents the user from manually resizing */
+	transition: all 0.3s ease; /* Smooth transition when resizing */
+	font-size: 14px;
+	color: #333;
+}
+
+.add-comment-container textarea:focus {
+	width: 100%; /* Expands to full width on focus */
+	height: 70px; /* Increases height on focus */
+	border-color: #007bff; /* Changes border color on focus */
+	outline: none;
+}
+
+.comment-submit-btn {
+	display: none; /* Hidden by default until comment box is expanded */
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 3px;
+	cursor: pointer;
+	margin-top: 5px;
+}
+
+.comment-submit-btn:active {
+	background-color: #0056b3;
+}
+
+
+/*comment area*/
+/* Container that holds all comments */
+.comments-section {
+	margin-top: 10px;
+}
+
+/* Individual comment container */
+.comment-container {
+	padding: 5px 0;
+	position: relative; /* For proper positioning of 3-dot menu */
+	margin-left: 0;
+    border: none;
+	border-bottom: 1px solid #f1f1f1; /* Only add a bottom border */
+    border-radius: 0px;
+}
+
+/* First comment has a stronger top border */
+.comment-container:first-child {
+	border-top: 0.6px solid #ccc;
+}
+
+/* Comment content text */
+.comment-content {
+	font-size: 13px;
+	line-height: 1;
+	color: #444;
+	margin: 0;
+	padding-right: 20px; /* Ensure space for the 3-dot menu on the right */
+}
+
+/* Comment metadata (username and timestamp) */
+.comment-meta {
+	font-size: 11px;
+	color: #999;
+	margin-top: 3px;
+}
+
+/* Three-dot menu for each comment */
+.menu-dots {
+	font-size: 18px;
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	top: 0;
+	color: #999;
+}
+
+/* Dropdown menu with delete button */
+.menu-options {
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 20px;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	padding: 5px;
+}
+
+/* Subtle delete button */
+.delete-btn {
+	background-color: transparent;
+	color: red;
+	border: none;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+/* Remove top border of the comment that follows to avoid double borders */
+.comment-container + .comment-container {
+	border-top: none; /* Prevents double border effect */
+}
+
+/* Reduce space between comments */
+.comment-container + .comment-container {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+/*Answer container*/
+/* Basic styling for the expandable textarea */
+.expandable-textarea {
+	width: 100%;
+	min-height: 50px;
+	max-height: 300px; /* You can adjust this */
+	resize: none;
+	overflow: hidden;
+}
+
+/*post question container*/
+#ask-question-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#ask-question-btn:hover {
+    background-color: #0056b3;
+}
+
+#question-form-container {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    resize: none; /* Disable manual resizing */
+    overflow: hidden; /* Hide scrollbar */
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}

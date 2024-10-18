@@ -7,6 +7,9 @@
     {% for question in questions %}
     <li>{{ question.content }} 
         <a href="{{ url_for('admin.approve_question', question_id=question.id) }}">Approve</a>
+        <p><small>Commented by user {{ comment.user_id }} at {{ comment.posted_at }}</small></p>
+        <p><small>Posted by user {{ answer.user_id }} at {{ answer.posted_at }}</small></p>
+
     </li>
     {% endfor %}
 </ul>

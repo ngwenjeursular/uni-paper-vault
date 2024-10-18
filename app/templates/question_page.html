@@ -1,41 +1,241 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ question.title }}</h1>
-<p>{{ question.content }}</p>
+  <div class="question-container">
+    <!-- Question title and content inside the container -->
+    <h1>{{ question.title }}</h1>
 
-<!-- Form for submitting answers -->
-<form method="POST">
+    <p>
+      {{ question.content }} -
+      <a href="{{ url_for('user.profile', user_id=question.user.id) }}">{{ question.user.username }}</a>
+      on {{ question.created_at|format_time }}
+    </p>
+
+    <!-- Three dots menu (only for the author) -->
+    {% if current_user.id == question.user_id %}
+      <div class="dropdown">
+        <span class="three-dots">⋮</span>
+        <div class="dropdown-content">
+          <form action="{{ url_for('home.delete_question', question_id=question.id) }}" method="POST">
+            <button type="submit" class="btn btn-danger">Delete Question</button>
+          </form>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Form for submitting answers -->
+  <form method="POST" class="answer-form">
     <label for="answer">Your Answer:</label>
-    <textarea name="answer" id="answer"></textarea>
-    <button type="submit">Submit Answer</button>
-</form>
+    <!-- Your answer form -->
+    <textarea id="answer-textarea" class="expandable-textarea" name="answer" placeholder="Write your answer..."></textarea>
+    <button type="submit" id="answer-submit">Submit Answer</button>
+  </form>
 
-<!-- Display answers -->
-<h2>Answers:</h2>
-<ul>
+  <!-- Display answers -->
+  <h2>Answers:</h2>
+  <ul>
     {% for answer in answers %}
-    <li>
-        <p>{{ answer.content }}</p>
-        <p><small>Posted by user {{ answer.user_id }} at {{ answer.posted_at }}</small></p>
+      <li>
+        <div class="answer-container">
+          <p>{{ answer.content }}</p>
+
+          <p>
+            - <a href="{{ url_for('user.profile', user_id=answer.id) }}">{{ answer.user.username }}</a>
+            * {{ answer.created_at|format_time }}
+          </p>
+
+          <!-- Only show the three dots for the user who posted the answer -->
+          {% if answer.user_id == current_user.id %}
+            <!-- Three dots menu -->
+            <div class="menu-dots" onclick="toggleMenu('answer-{{ answer.id }}')">⋮</div>
+
+            <!-- Dropdown menu (hidden by default) -->
+            <div class="menu-options" id="answer-{{ answer.id }}" style="display: none;">
+              <form method="POST" action="{{ url_for('home.delete_answer', answer_id=answer.id) }}">
+                <button type="submit" class="delete-btn">Delete</button>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+
         <!-- Display comments for the answer -->
-        <h3>Comments:</h3>
         <ul>
+          <!-- Loop through comments for each answer -->
+          <div class="comments-section">
             {% for comment in answer.comments %}
-            <li>
-                <p>{{ comment.content }}</p>
-                <p><small>Commented by user {{ comment.user_id }} at {{ comment.posted_at }}</small></p>
-            </li>
+              <div class="comment-container">
+                <p class="comment-content">
+                  {{ comment.content|safe }} -
+                  <a href="{{ url_for('user.profile', user_id=comment.user.id) }}">{{ comment.user.username }}</a>
+                  on {{ comment.created_at|format_time }}
+                </p>
+
+                <!-- The three-dot menu (only shows for the comment's author) -->
+                {% if comment.user_id == current_user.id %}
+                  <div class="menu-dots" onclick="toggleMenu('menu-comment-{{ comment.id }}')">⋮</div>
+
+                  <!-- The dropdown menu (hidden by default) -->
+                  <div class="menu-options" id="menu-comment-{{ comment.id }}" style="display: none;">
+                    <form method="POST" action="{{ url_for('home.delete_comment', comment_id=comment.id) }}">
+                      <button type="submit" class="delete-button">Delete Comment</button>
+                    </form>
+                  </div>
+                {% endif %}
+              </div>
             {% endfor %}
+          </div>
         </ul>
         <!-- Form for submitting comments -->
-        <form method="POST" action="{{ url_for('home.add_comment', answer_id=answer.id) }}">
-            <label for="comment">Add a Comment:</label>
-            <textarea name="comment" id="comment" placeholder="Write your comment..."></textarea>
-            <button type="submit">Submit Comment</button>
-        </form>
-    </li>
+        <div class="add-comment-container">
+          <form method="POST" action="{{ url_for('home.add_comment', answer_id=answer.id) }}" autocomplete="off">
+            <textarea name="comment" id="comment" placeholder="Add a comment..." onfocus="expandCommentBox(this)" onblur="shrinkCommentBox(this)"></textarea>
+            <button type="submit" class="comment-submit-btn">Submit</button>
+          </form>
+        </div>
+      </li>
     {% endfor %}
-</ul>
+  </ul>
 
+  <button onclick="window.location.href=document.referrer">Go Back</button>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <script>
+    function toggleMenu(answerId) {
+      var menu = document.getElementById(answerId)
+      if (menu.style.display === 'none') {
+        menu.style.display = 'block'
+      } else {
+        menu.style.display = 'none'
+      }
+    }
+    
+    /*function toggleDropdown() {
+          var dropdown = document.getElementById('dropdown-menu')
+          dropdown.classList.toggle('show')
+        }*/
+    
+    // Close the dropdown if clicked outside
+    window.onclick = function (event) {
+      if (!event.target.matches('.three-dots')) {
+        var dropdowns = document.getElementsByClassName('dropdown-content')
+        for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i]
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show')
+          }
+        }
+      }
+    }
+    
+    function toggleDropdown() {
+      var dropdown = document.getElementById('dropdown-menu')
+      if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+        dropdown.style.display = 'block'
+      } else {
+        dropdown.style.display = 'none'
+      }
+    }
+    
+    function toggleMenu(menuId) {
+      const menu = document.getElementById(menuId)
+    
+      // Toggle the display of the menu when the three-dots are clicked
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none'
+      } else {
+        menu.style.display = 'block'
+      }
+    }
+    
+    // Hide the dropdown when clicking outside the menu
+    document.addEventListener('click', function (event) {
+      const menus = document.querySelectorAll('.menu-options')
+      menus.forEach((menu) => {
+        // Close the menu if clicking outside
+        if (!menu.previousElementSibling.contains(event.target)) {
+          menu.style.display = 'none'
+        }
+      })
+    })
+    
+    function expandCommentBox(textarea) {
+      textarea.style.height = '70px' // Expand the height when focused
+      textarea.nextElementSibling.style.display = 'inline-block' // Show the submit button
+    }
+    
+    function shrinkCommentBox(textarea) {
+      if (textarea.value.trim() === '') {
+        // Only shrink if the textarea is empty
+        textarea.style.height = '30px' // Return to original height
+        textarea.nextElementSibling.style.display = 'none' // Hide the submit button
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      // Select the answer textarea
+      let answerTextarea = document.getElementById('answer-textarea')
+    
+      // Expand the textarea as you type
+      answerTextarea.addEventListener('input', function () {
+        this.style.height = 'auto' // Reset the height
+        this.style.height = this.scrollHeight + 'px' // Set it to the scrollHeight
+      })
+    })
+    
+    // want the enter button to serve like the submit button
+    document.addEventListener('DOMContentLoaded', function () {
+      // Select the answer textarea and submit button
+      let answerTextarea = document.getElementById('answer-textarea')
+      let submitButton = document.getElementById('answer-submit')
+    
+      // Add event listener for keydown on the textarea
+      answerTextarea.addEventListener('keydown', function (event) {
+        // If the Enter key is pressed without Shift
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault() // Prevent adding a new line
+          submitButton.click() // Trigger the submit button
+        }
+      })
+    
+      // Ensure the form submission happens on button click
+      submitButton.addEventListener('click', function (event) {
+        event.preventDefault() // Prevent default form submission
+    
+        // Handle the form submission here
+        const form = this.closest('form') // Assuming your button is inside a form
+        if (form) {
+          form.submit() // Submit the form manually
+        }
+      })
+    })
+    window.onpageshow = function (event) {
+      if (event.persisted) {
+        window.location.reload()
+      }
+    }
+    
+    function goBack() {
+      window.history.back()
+    }
+    
+    window.onload = function () {
+      if (window.history && window.history.replaceState) {
+        // Clear form data
+        document.querySelector('form').reset()
+      }
+    }
+    
+    document.getElementById('ask-question-btn').addEventListener('click', function () {
+      // Toggle visibility of the form
+      var formContainer = document.getElementById('question-form-container')
+      if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+        formContainer.style.display = 'block'
+      } else {
+        formContainer.style.display = 'none'
+      }
+    })
+  </script>
 {% endblock %}

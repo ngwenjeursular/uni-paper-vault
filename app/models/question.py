@@ -2,6 +2,8 @@ from app.models.base import BaseModel
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app import db
+from datetime import datetime
+
 
 
 class Question(BaseModel, db.Model):
@@ -13,18 +15,25 @@ class Question(BaseModel, db.Model):
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	content = Column(String, nullable=False)
 	unit_id = Column(Integer, ForeignKey('units.id'), nullable=False)
+	user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+	created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-	answers = relationship('Answer', backref='question', lazy=True)
+	answers = relationship('Answer', backref='question', lazy=True, cascade="all, delete-orphan")
 
-	def __init__(self, content, unit_id):
+	# Relationship to User
+	#author = db.relationship('User', back_populates='questions')
+	user = relationship('User', back_populates='questions')
+
+	def __init__(self, content, unit_id, user_id):
 		"""
 		Constructor class
 		"""
 		print("question model loaded 4")
 
 		self.content = content
-		#self.paper_id = paper_id
 		self.unit_id = unit_id
+		self.user_id = user_id
+		self.created_at = datetime.utcnow()
 
 	def __repr__(self):
 		"""
@@ -45,5 +54,7 @@ class Question(BaseModel, db.Model):
 		return {
 			'id': self.id,
 			'content': self.content,
-			'unit_id': self.unit_id
+			'unit_id': self.unit_id,
+			'user_id': self.user_id,
+			'created_at': self.created_at
 		}

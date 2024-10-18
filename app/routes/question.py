@@ -8,20 +8,12 @@ from flask_login import current_user, login_required
 question_bp = Blueprint('question', __name__)
 
 
-
-
-@question_bp.route('/post_question/<int:unit_id>', methods=['GET', 'POST'])
+@question_bp.route('/post_question', methods=['POST'])
 @login_required
-def post_question(unit_id):
-    if request.method == 'POST':
-        # Handle form submission and save the question
-        question_content = request.form['content']
-        new_question = Question(content=question_content, unit_id=unit_id)
-        db.session.add(new_question)
-        db.session.commit()
-        return redirect(url_for('unit_page', unit_id=unit_id))
-    print(f"Unit ID: {unit_id}")
-
-
-    return render_template('post_question.html', unit_id=unit_id)
-
+def post_question():
+    title = request.form.get('title')
+    content = request.form.get('content')
+    new_question = Question(title=title, content=content, user_id=current_user.id)
+    db.session.add(new_question)
+    db.session.commit()
+    return redirect(url_for('home.unit_page', unit_id=new_question.unit_id))

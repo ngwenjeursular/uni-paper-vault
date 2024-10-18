@@ -13,7 +13,7 @@ class Comment(BaseModel, db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     content = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    answer_id = Column(Integer, ForeignKey('answers.id'), nullable=False)
+    answer_id = Column(Integer, ForeignKey('answers.id', ondelete='CASCADE'), nullable=False)
     created_at = Column(db.DateTime, default=datetime.utcnow)
     
 

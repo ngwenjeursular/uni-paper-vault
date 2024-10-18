@@ -22,6 +22,11 @@ class User(BaseModel, UserMixin, db.Model):
 
     answers = relationship('Answer', backref='user', lazy=True)
     comments = relationship('Comment', backref='user', lazy=True)
+    #questions = relationship('Question', backref='author', lazy=True)
+
+    # Relationship to Question
+    questions = db.relationship('Question', back_populates='user')
+
 
 
     def __init__(self, username, email, password):

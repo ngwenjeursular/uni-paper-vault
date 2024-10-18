@@ -18,9 +18,10 @@ class Answer(BaseModel, db.Model):
 	downvotes = Column(Integer, default=0)
 	user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 	question_id = Column(Integer, ForeignKey('questions.id'), nullable=False)
+	created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-	comments = relationship('Comment', backref='answer', lazy=True)
-	comments = relationship('Comment', backref='commented_answer', lazy=True)
+	comments = relationship('Comment', backref='answer', lazy=True, cascade="all, delete-orphan", passive_deletes=True)
+
 
 	def __init__(self, content, user_id, question_id):
 		"""

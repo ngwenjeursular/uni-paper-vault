@@ -3,26 +3,94 @@
 {% block content %}
 <h1>{{ unit_name }}</h1>
 
-<!-- Form for uploading files or posting questions -->
-<form method="POST" enctype="multipart/form-data">
-    <label for="question">Post a Question:</label>
-    <textarea name="question" id="question"></textarea>
-
-    <label for="file">Upload a File:</label>
-    <input type="file" name="file" id="file">
+<button id="ask-question-btn">Ask a Question</button>
 
 
-    <button type="submit">Submit</button>
-</form>
+
+<div id="question-form-container" style="display: none;">
+    <form method="POST" enctype="multipart/form-data">
+        <label for="question">Post a Question:</label>
+        <textarea name="question" id="question" placeholder="Post a question..."></textarea>
+
+        <label for="file">Upload a File:</label>
+        <input type="file" name="file" id="file" accept=".pdf, .jpg, .jpeg, .png, .docx">
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
 
 <!-- Display questions as links -->
-<h2>Questions:</h2>
-<ul>
+
+<div class="unit-question-list">
     {% for question in questions %}
-    <li><a href="{{ url_for('home.question_page', question_id=question.id) }}">{{ question.content }}</a></li>
-    {% else %}
-    <li>No questions available.</li>
+    <div class="question-item" >
+        <a href="{{ url_for('home.question_page', question_id=question.id) }}">
+            <h3 class="question-title">{{ question.content[:50] }}...</h3> <!-- Truncating the content for title -->
+
+        </a>
+        <p class="question-content">{{ question.content[:300] }}... <a href="{{ url_for('home.question_page', question_id=question.id) }}">Read more</a></p>
+
+        <p class="question-meta">
+            Posted by <a href="{{ url_for('user.profile', user_id=question.user.id) }}">
+                {{ question.user.username }}
+            </a>
+            - {{ question.created_at|format_time }}
+        </p>
+
+            <!-- Three dots menu (only visible if the user is the author) -->
+        {% if current_user.id == question.user_id %}
+        <div class="dropdown">
+            <span class="three-dots" onclick="toggleDropdown(this)">⋮</span>
+            <div class="dropdown-content" >
+                <form action="{{ url_for('home.delete_question', question_id=question.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete Question</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
     {% endfor %}
-</ul>
+    {% for file in files %}
+    <div>
+        <a href="{{ url_for('home.uploaded_file', filename=file.filename) }}">{{ file.filename }}</a>
+    </div>
+    {% endfor %}
+
+</div>
+
+
+<script>
+    // Ensure the DOM is fully loaded before accessing elements
+    document.addEventListener('DOMContentLoaded', function() {
+        const askQuestionBtn = document.getElementById('ask-question-btn');
+        const questionFormContainer = document.getElementById('question-form-container');
+        const questionTextarea = document.getElementById('question');
+        const form = questionFormContainer.querySelector('form');
+
+        askQuestionBtn.addEventListener('click', function() {
+            // Toggle visibility of the form
+            if (questionFormContainer.style.display === 'none' || questionFormContainer.style.display === '') {
+                questionFormContainer.style.display = 'block';
+            } else {
+                questionFormContainer.style.display = 'none';
+            }
+        });
+
+        // Automatically resize textarea based on content
+        questionTextarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = `${this.scrollHeight}px`;
+        });
+
+        // Handle the Enter key to submit the form
+        questionTextarea.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent newline from being added
+                form.submit(); // Submit the form
+            }
+        });
+    });
+</script>
+
 
 {% endblock %}
